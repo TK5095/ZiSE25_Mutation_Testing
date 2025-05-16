@@ -6,7 +6,7 @@
 - **Alerts** when temperature exceeds a configurable threshold, using both:
   - A **buzzer** (Temporal-3 fire-alarm pattern)  
   - An **LED** chase animation on four GPIO-driven LEDs  
-- **Modular feature support**—enable or disable in `prj.conf`:
+- **Modular feature support**, enable or disable in `prj.conf`:
 
     ```ini
     CONFIG_APP_LEDS=y       # Enable LED warning animation when threshold is exceeded
@@ -20,7 +20,7 @@
 
 ### Visual Studio Code & Zephyr Workbench
 
-1. **Install VS Code** and the **Zephyr Workbench** extension.  
+1. **Install VS Code** and the **Zephyr Workbench** extension (Windows, Linux and Mac).  
    Follow this guide:  
    https://zephyr-workbench.com/docs/documentation/installation/
 
@@ -30,20 +30,19 @@
 3. **Import the West workspace**  
    - Open the Zephyr Workbench extension.  
    - Click **New West Workspace** (or **Initialize workspace**).  
-   - **Source location:**  
-     `https://github.com/BUGSENG/ZiSe25.git`  
-   - **Tag:** `main`  
+   - **Source location:** `https://github.com/BUGSENG/ZiSe25.git`  
+   - **Tag:** write `main`  
    - Choose a local folder and click **Import**.
 
 4. **Import the Application**  
    - In the **Applications** panel, click **Import Zephyr Application**.  
    - Select the `temp_alert` folder path from the cloned repo.  
    - Point to your West workspace and SDK.  
-   - Choose board **NXP FRDM MCXN947 (CPU0)**.
+   - Choose board `NXP FRDM MCXN947 (CPU0)`.
 
 5. **Build**  
    - Right-click on **temp_alert** → **Build**.  
-   - View output in the VS Code Terminal.
+   - View build output in the VS Code Terminal.
 
 6. **Flash & Debug**  
    Follow the tutorial:  
@@ -52,7 +51,7 @@
 ---
 
 ### Command-Line
-
+Make sure that [zephyr prerequisites](https://docs.zephyrproject.org/latest/develop/getting_started/index.html) already installed
 ```bash
 # Activate your Python venv
 source <path-to-venv>/bin/activate
@@ -69,5 +68,4 @@ pip install -r deps/zephyr/scripts/requirements.txt
 # Build the temp_alert application
 cd temp_alert
 west build -b frdm_mcxn947/mcxn947/cpu0
-
-Note: you must have [zephyr prerequisites](https://docs.zephyrproject.org/latest/develop/getting_started/index.html) already installed
+```
