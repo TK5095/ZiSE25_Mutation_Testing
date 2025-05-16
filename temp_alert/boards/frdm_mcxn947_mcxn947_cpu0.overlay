@@ -1,0 +1,64 @@
+/ {
+	aliases {
+		buzzer = &buzzer0;
+		led0 = &orange_led_shield;
+		led1 = &blue_led_shield;
+		led2 = &green_led_shield;
+		led3 = &red_led_shield;
+	};
+};
+
+&flexcomm2_lpi2c2 {
+	bme280@76 {
+		compatible = "bosch,bme280";
+		reg = <0x76>;
+	};
+};
+
+/* pinout: https://codex.ac6.fr/Zephyr/xref/hal_nxp-latest/dts/nxp/mcx/MCXN947VDF-pinctrl.h */
+/ {
+	leds {
+		compatible = "gpio-leds";
+
+		buzzer0: buzzer0 {
+			gpios = <&gpio1 23 GPIO_ACTIVE_HIGH>; // D3 - P1_23
+			status = "okay";
+		};
+		
+		tm1637_clk: tm1637_clk {
+			gpios = <&gpio0 27 GPIO_ACTIVE_HIGH>; // D10 - P0_27
+			label = "tm1637_clk";
+			status = "okay";
+		};
+		
+		tm1637_din: tm1637_din {
+			gpios = <&gpio0 24 GPIO_ACTIVE_HIGH>; // D11 - P0_24
+			label = "tm1637_din";
+			status = "okay";
+		};
+		
+		orange_led_shield: orange_led_shield {
+			gpios = <&gpio0 31 GPIO_ACTIVE_HIGH>; // D7 - P0_31
+			label = "Orange LED";
+			status = "okay";
+		};
+
+		blue_led_shield: blue_led_shield {
+			gpios = <&gpio1  2 GPIO_ACTIVE_HIGH>; // D6 - P1_2
+			label = "Blue LED";
+			status = "okay";
+		};
+		
+		green_led_shield: green_led_shield {
+			gpios = <&gpio1 21 GPIO_ACTIVE_HIGH>; // D5 - P1_21
+			label = "Green LED";
+			status = "okay";
+		};
+		
+		red_led_shield: red_led_shield {
+			gpios = <&gpio0 30 GPIO_ACTIVE_HIGH>; // D4 - P0_30
+			label = "Red LED";
+			status = "okay";
+		};
+	};
+};

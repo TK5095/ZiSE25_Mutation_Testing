@@ -1,0 +1,5 @@
+deps/
+build/
+temp_alert/build/
+.venv/
+.west/

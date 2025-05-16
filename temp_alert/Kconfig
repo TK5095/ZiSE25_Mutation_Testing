@@ -1,0 +1,26 @@
+menu "Application Features"
+
+config APP_LEDS
+    bool "Enable LED warning animation"
+    default y
+    help
+      If enabled, the LED warning animation thread will be built and run
+      when the temperature threshold is exceeded.
+
+config APP_BUZZER
+    bool "Enable buzzer alarm"
+    default y
+    help
+      If enabled, the buzzer alarm thread will be built and run
+      when the temperature threshold is exceeded.
+
+config APP_DISPLAY
+    bool "Enable TM1637 7-segment display"
+    default y
+    help
+      If enabled, the TM1637 display support will be built and initialized,
+      and the current temperature will be shown on the display.
+
+endmenu
+
+source "Kconfig.zephyr"
