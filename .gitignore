@@ -1,5 +1,7 @@
 deps/
 build/
-temp_alert/build/
 .venv/
 .west/
+.vscode/
+temp_alert/build/
+temp_alert/.vscode/
