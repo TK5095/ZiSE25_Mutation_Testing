@@ -6,11 +6,12 @@ manifest:
     - name: zephyr
       repo-path: zephyr
       remote: zephyrproject
-      revision: v4.1.0
+      revision: 24f9ca7178a13273844bbe710a0bb37db179ad03
       import:
         path-prefix: deps
         name-allowlist:
           - cmsis
+          - cmsis_6
           - cmsis-dsp
           - percepio
           - picolibc

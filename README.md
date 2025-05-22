@@ -69,3 +69,17 @@ pip install -r deps/zephyr/scripts/requirements.txt
 cd temp_alert
 west build -b frdm_mcxn947/mcxn947/cpu0
 ```
+
+## Static Analysis
+
+If the steps above to build the application went well, you can proceed with
+running static analysis. It is assumed that the Python venv is already activated
+and the starting directory is the top project directory (the one containing prj.conf).
+
+# TODO: finish analysis instructions
+
+```bash
+cd temp_alert
+west build -p -b frdm_mcxn947/mcxn947/cpu0 -- -DZEPHYR_SCA_VARIANT=eclair
+```
+
