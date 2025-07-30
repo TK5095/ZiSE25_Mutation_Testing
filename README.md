@@ -24,7 +24,7 @@
    Follow this guide:  
    https://zephyr-workbench.com/docs/documentation/installation/
 
-2. **Install the Zephyr SDK (v0.17.0)** via this tutorial:  
+2. **Install the Zephyr SDK (v0.17.2)** via this tutorial:  
    https://zephyr-workbench.com/docs/tutorials/frdm-mcxn947#import-a-sdk
 
 3. **Import the West workspace**  
