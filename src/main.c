@@ -12,6 +12,7 @@
  #include "display.h"
  #include "buzzer.h"
  #include "leds.h"
+ #include "utils.h"
  
  #define TEMP_THRESHOLD_C     30   /* trip point in °C */
  #define TEMP_THREAD_STACK  1024
@@ -38,7 +39,7 @@
  SYS_INIT(sensor_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
  
  /*--- temp thread: fetch & log & display & set alarm_flag ---*/
- static void temp_thread_fn(void * arg1, void * arg2, void * arg3)
+ static void noreturn temp_thread_fn(void * arg1, void * arg2, void * arg3)
  {
 	 ARG_UNUSED(arg1);
 	 ARG_UNUSED(arg2);

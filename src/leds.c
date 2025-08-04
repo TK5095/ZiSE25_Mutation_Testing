@@ -3,6 +3,7 @@
  */
 
  #include "leds.h"
+ #include "utils.h"
  #include <zephyr/drivers/gpio.h>
  #include <zephyr/device.h>
  #include <zephyr/devicetree.h>
@@ -24,7 +25,7 @@
      GPIO_DT_SPEC_GET(LED3_NODE, gpios),
  };
  
- void leds_thread_fn(void *a, void *b, void *c)
+ void noreturn leds_thread_fn(void *a, void *b, void *c)
  {
      ARG_UNUSED(a); ARG_UNUSED(b); ARG_UNUSED(c);
  

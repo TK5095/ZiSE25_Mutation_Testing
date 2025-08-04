@@ -3,6 +3,7 @@
  */
 
  #include "buzzer.h"
+ #include "utils.h"
  #include <zephyr/drivers/gpio.h>
  #include <zephyr/device.h>
  #include <zephyr/devicetree.h>
@@ -38,7 +39,7 @@
      k_sleep(K_MSEC(1500));
  }
  
- void buzzer_thread_fn(void *a, void *b, void *c)
+ void noreturn buzzer_thread_fn(void *a, void *b, void *c)
  {
      ARG_UNUSED(a); ARG_UNUSED(b); ARG_UNUSED(c);
      while (1) {
