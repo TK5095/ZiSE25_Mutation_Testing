@@ -74,11 +74,17 @@
 		 /* build segments XX.YY */
 		 int deg = temp.val1;
 		 __ASSERT(deg >= 0 && deg <= 999, "unexpected val1");
-		 if (deg < 0) deg = 0;
-		 if (deg > 99) deg = 99;
+		 if (deg < 0) {
+		   deg = 0;
+		 }
+		 if (deg > 99) {
+		   deg = 99;
+		 }
  
 		 int hund = (temp.val2 >= 0 ? temp.val2 : -temp.val2) / 10000;
-		 if (hund > 99) hund = 99;
+		 if (hund > 99) {
+		   hund = 99;
+		 }
  
 		 uint8_t segs[4] = {
 			 tm1637_segment_map[deg / 10],
