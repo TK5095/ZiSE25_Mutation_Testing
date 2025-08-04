@@ -67,7 +67,8 @@
      LOG_INF("Buzzer initialized on %s", buzzer.port->name);
      return 0;
  }
- 
+
+ /* -E> deliberate MC4.R17.12 1 function name is concatenated with '__init_' token */
  SYS_INIT(buzzer_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
  
  K_THREAD_DEFINE(buzzer_thread, BUZZER_THREAD_STACK,

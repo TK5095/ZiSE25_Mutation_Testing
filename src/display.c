@@ -52,5 +52,6 @@
  }
  
  /* run at APPLICATION init level */
+ /* -E> deliberate MC4.R17.12 1 function name is concatenated with '__init_' token */
  SYS_INIT(display_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
  

@@ -61,9 +61,10 @@
      LOG_INF("All LEDs initialized");
      return 0;
  }
+
+ /* -E> deliberate MC4.R17.12 1 function name is concatenated with '__init_' token */
  SYS_INIT(leds_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
  
  K_THREAD_DEFINE(leds_thread, LED_THREAD_STACK,
                  leds_thread_fn, NULL, NULL, NULL,
                  THREAD_PRIORITY, 0, 0);
- 

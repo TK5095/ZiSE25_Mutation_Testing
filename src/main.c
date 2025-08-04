@@ -36,6 +36,8 @@
 	 LOG_INF("BME280 sensor %s ready", bme_dev->name);
 	 return 0;
  }
+
+ /* -E> deliberate MC4.R17.12 1 function name is concatenated with '__init_' token */
  SYS_INIT(sensor_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
  
  /*--- temp thread: fetch & log & display & set alarm_flag ---*/
