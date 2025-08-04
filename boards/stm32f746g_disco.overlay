@@ -1,0 +1,65 @@
+/ {
+	aliases {
+		buzzer = &buzzer0;
+		led0 = &orange_led_shield;
+		led1 = &blue_led_shield;
+		led2 = &green_led_shield;
+		led3 = &red_led_shield;
+	};
+};
+
+&i2c1 {
+	status = "okay";
+	bme280@76 {
+		compatible = "bosch,bme280";
+		reg = <0x76>;
+	};
+};
+
+
+/ {
+	leds {
+		compatible = "gpio-leds";
+
+		buzzer0: buzzer0 {
+			gpios = <&gpiob 4 GPIO_ACTIVE_HIGH>; // D3 - PB4
+			status = "okay";
+		};
+		
+		tm1637_clk: tm1637_clk {
+			gpios = <&gpioa 8 GPIO_ACTIVE_HIGH>; // D10 - PA8
+			label = "tm1637_clk";
+			status = "okay";
+		};
+		
+		tm1637_din: tm1637_din {
+			gpios = <&gpiob 15 GPIO_ACTIVE_HIGH>; // D11 - PB15
+			label = "tm1637_din";
+			status = "okay";
+		};
+		
+		orange_led_shield: orange_led_shield {
+			gpios = <&gpioi 3 GPIO_ACTIVE_HIGH>; // D7 - PI3
+			label = "Orange LED";
+			status = "okay";
+		};
+
+		blue_led_shield: blue_led_shield {
+			gpios = <&gpioh 6 GPIO_ACTIVE_HIGH>; // D6 - PH6
+			label = "Blue LED";
+			status = "okay";
+		};
+		
+		green_led_shield: green_led_shield {
+			gpios = <&gpioi 0 GPIO_ACTIVE_HIGH>; // D5 - PI0
+			label = "Green LED";
+			status = "okay";
+		};
+		
+		red_led_shield: red_led_shield {
+			gpios = <&gpiog 7 GPIO_ACTIVE_HIGH>; // D4 - PG7
+			label = "Red LED";
+			status = "okay";
+		};
+	};
+};

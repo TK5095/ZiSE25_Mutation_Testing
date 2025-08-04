@@ -17,5 +17,6 @@ manifest:
           - picolibc
           - segger
           - hal_nxp
+          - hal_stm32
   self:
     path: temp_alert
