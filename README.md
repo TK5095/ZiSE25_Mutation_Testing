@@ -38,7 +38,7 @@
    - In the **Applications** panel, click **Import Zephyr Application**.  
    - Select the `temp_alert` folder path from the cloned repo.  
    - Point to your West workspace and SDK.  
-   - Choose board `NXP FRDM MCXN947 (CPU0)`.
+   - Choose one of these two boards: `NXP FRDM MCXN947 (CPU0)` or `STM32 ST STM32F746G Discovery`.
 
 5. **Build**  
    - Right-click on **temp_alert** → **Build**.  
