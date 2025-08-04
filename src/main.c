@@ -106,6 +106,6 @@
  }
  
  K_THREAD_DEFINE(temp_thread, TEMP_THREAD_STACK,
-				 temp_thread_fn, NULL, NULL, NULL,
+				 &temp_thread_fn, NULL, NULL, NULL,
 				 THREAD_PRIORITY, 0, 0);
  

@@ -72,6 +72,6 @@
  SYS_INIT(buzzer_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
  
  K_THREAD_DEFINE(buzzer_thread, BUZZER_THREAD_STACK,
-                 buzzer_thread_fn, NULL, NULL, NULL,
+                 &buzzer_thread_fn, NULL, NULL, NULL,
                  THREAD_PRIORITY, 0, 0);
  

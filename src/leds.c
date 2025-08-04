@@ -66,5 +66,5 @@
  SYS_INIT(leds_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
  
  K_THREAD_DEFINE(leds_thread, LED_THREAD_STACK,
-                 leds_thread_fn, NULL, NULL, NULL,
+                 &leds_thread_fn, NULL, NULL, NULL,
                  THREAD_PRIORITY, 0, 0);
