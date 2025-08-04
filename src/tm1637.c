@@ -86,7 +86,7 @@
      }
      /* start both low */
      int err = gpio_pin_configure_dt(&dev->clk, GPIO_OUTPUT_INACTIVE);
-     if (err) {
+     if (err != 0) {
          return err;
      }
      return gpio_pin_configure_dt(&dev->dio, GPIO_OUTPUT_INACTIVE);

@@ -29,8 +29,8 @@
  {
      ARG_UNUSED(a); ARG_UNUSED(b); ARG_UNUSED(c);
  
-     while (1) {
-         if (atomic_get(&alarm_flag)) {
+     while (true) {
+         if (atomic_get(&alarm_flag) != 0) {
              for (size_t i = 0; i < ARRAY_SIZE(leds); i++) {
                  gpio_pin_set_dt(&leds[i], 1);
                  k_sleep(K_MSEC(100));
@@ -53,7 +53,7 @@
              return -ENODEV;
          }
          err = gpio_pin_configure_dt(&leds[i], GPIO_OUTPUT_INACTIVE);
-         if (err) {
+         if (err != 0) {
              LOG_ERR("Failed to configure LED%u (%d)", (int)i, err);
              return err;
          }

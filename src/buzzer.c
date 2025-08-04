@@ -42,8 +42,8 @@
  void noreturn buzzer_thread_fn(void *a, void *b, void *c)
  {
      ARG_UNUSED(a); ARG_UNUSED(b); ARG_UNUSED(c);
-     while (1) {
-         if (atomic_get(&alarm_flag)) {
+     while (true) {
+         if (atomic_get(&alarm_flag) != 0) {
              buzzer_fire_pattern();
          } else {
              k_sleep(K_MSEC(200));
@@ -60,7 +60,7 @@
          return -ENODEV;
      }
      ret = gpio_pin_configure_dt(&buzzer, GPIO_OUTPUT_INACTIVE);
-     if (ret) {
+     if (ret != 0) {
          LOG_ERR("Failed to configure buzzer (%d)", ret);
          return ret;
      }

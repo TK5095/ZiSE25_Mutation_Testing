@@ -28,7 +28,7 @@
  
      /* tm1637_init() will configure both pins for us */
      err = tm1637_init(&disp);
-     if (err) {
+     if (err != 0) {
          LOG_ERR("TM1637 init failed: %d", err);
          return err;
      }

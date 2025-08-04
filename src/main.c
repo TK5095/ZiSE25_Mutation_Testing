@@ -49,9 +49,9 @@
 	 struct sensor_value temp;
 	 int ret;
  
-	 while (1) {
+	 while (true) {
 		 ret = sensor_sample_fetch(bme_dev);
-		 if (ret) {
+		 if (ret != 0) {
 			 LOG_ERR("sensor_sample_fetch failed: %d", ret);
 			 k_sleep(K_SECONDS(1));
 			 continue;
@@ -60,7 +60,7 @@
 		 ret = sensor_channel_get(bme_dev,
 								  SENSOR_CHAN_AMBIENT_TEMP,
 								  &temp);
-		 if (ret) {
+		 if (ret != 0) {
 			 LOG_ERR("sensor_channel_get failed: %d", ret);
 			 k_sleep(K_SECONDS(1));
 			 continue;
