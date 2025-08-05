@@ -39,15 +39,16 @@
      _delay();
  }
  
- static void _send_byte(const struct tm1637 *dev, uint8_t byte)
+ static void _send_byte(const struct tm1637 *dev, const uint8_t byte)
  {
+     uint8_t b = byte;
      for (int i = 0; i < 8; i++) {
          gpio_pin_set_dt(&dev->clk, 0);
-         gpio_pin_set_dt(&dev->dio, byte & 0x01);
+         gpio_pin_set_dt(&dev->dio, b & 0x01);
          _delay();
          gpio_pin_set_dt(&dev->clk, 1);
          _delay();
-         byte >>= 1;
+         b >>= 1;
      }
      /* ACK cycle (we just pulse CLK with DIO as input, then back) */
      gpio_pin_set_dt(&dev->clk, 0);
