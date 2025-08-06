@@ -1,0 +1,51 @@
+name: "ECLAIR normal"
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - 'tests/**'
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  ANALYSIS_KIND: normal
+  ENABLE_ECLAIR_BOT: true
+jobs:
+  Analyze:
+    strategy:
+      matrix:
+        board: ["frdm_mcxn947/mcxn947/cpu0", "stm32f746g_disco"]
+    runs-on: saas.eclairit.com
+    container:
+      image: bugseng/github-runner:latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+      - name: Prepare
+        run: |
+          set -eu
+          ./prepare.sh
+      - name: Build and analyze with ECLAIR
+        run: |
+          set -eu
+          ./ECLAIR/analyze.sh ${{ matrix.board }}
+      - name: ECLAIR analysis log
+        if: always()
+        run: cat build/sca/eclair/DIAGNOSTIC.txt
+      - name: Artifact name
+        id: artifact_name
+        if: always()
+        run: |
+          set -eu
+          BOARD_NAME=${{ matrix.board }}
+          echo "ARTIFACT_NAME=ECLAIR_out_$(echo "${BOARD_NAME}" | tr '/' '_')" >> $GITHUB_ENV
+      - name: Upload ECLAIR artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: build/sca/eclair/*
+      - name: Publish ECLAIR results
+        env:
+          WTOKEN: ${{secrets.WTOKEN}}
+        run: ECLAIR/action_push.sh "${WTOKEN}" build/sca/eclair

@@ -65,10 +65,17 @@ west update
 # Install Zephyr Python dependencies
 pip install -r deps/zephyr/scripts/requirements.txt
 
-# Build the temp_alert application
+# Build the temp_alert application for the NXP board
 cd temp_alert
 west build -b frdm_mcxn947/mcxn947/cpu0
+
+# Build the temp_alert application for the STM32 board
+cd temp_alert
+west build -b stm32f746g_disco
 ```
+
+**Note**: always perform a pristine build when switching to a different board
+(use flag `-p`).
 
 ## Static Analysis
 
