@@ -1,3 +1,5 @@
+[![ECLAIR normal](https://github.com/BUGSENG/ZiSe25/actions/workflows/ECLAIR_normal.yml/badge.svg?branch=main&event=push)](https://github.com/BUGSENG/ZiSe25/actions/workflows/ECLAIR_normal.yml)
+
 # Temp Alert
 
 **temp_alert** is a Zephyr-based embedded application that monitors ambient temperature via a BME280 sensor and:
