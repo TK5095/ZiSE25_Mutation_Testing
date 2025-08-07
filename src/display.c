@@ -35,7 +35,7 @@
  
      /* clear display (all zeros) */
      {
-         uint8_t zeros[4] = {0, 0, 0, 0};
+         const uint8_t zeros[4] = {0, 0, 0, 0};
          tm1637_write_segments(&disp, zeros);
      }
  
