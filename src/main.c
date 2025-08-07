@@ -88,7 +88,7 @@
  
 		 uint8_t segs[4] = {
 			 tm1637_segment_map[deg / 10],
-			 tm1637_segment_map[deg % 10] | 0x80,
+			 tm1637_segment_map[deg % 10] | 0x80U,
 			 tm1637_segment_map[(hund / 10) % 10],
 			 tm1637_segment_map[hund % 10],
 		 };
@@ -99,10 +99,10 @@
 		 bool above = (temp.val1 > TEMP_THRESHOLD_C) ||
 					  (temp.val1 == TEMP_THRESHOLD_C && temp.val2 >= 0);
  
-		 if (above && !atomic_get(&alarm_flag)) {
+		 if (above && atomic_get(&alarm_flag) == 0) {
 			 atomic_set(&alarm_flag, 1);
 			 LOG_WRN("Threshold reached");
-		 } else if (!above && atomic_get(&alarm_flag)) {
+		 } else if (!above && atomic_get(&alarm_flag) != 0) {
 			 atomic_set(&alarm_flag, 0);
 			 LOG_INF("Back below threshold");
 		 }

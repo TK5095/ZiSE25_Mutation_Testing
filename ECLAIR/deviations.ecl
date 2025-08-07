@@ -1,9 +1,13 @@
 # Project-wide deviations for temp_alert
 
+## General deviations
+
 -file_tag+={application_files,"^.*/ZiSe25/ZiSe25/(src|inc)/.*$"}
 -source_files+={hide, "!application_files"}
 
 -reports+={adopted, "all_area(all_loc(file(!application_files)))"}
+
+## Guideline-specific tailoring
 
 -config=MC4.R5.10,reports+={adopted, "any_area(any_loc(any_exp(macro(name(LOG_MODULE_DECLARE||Z_LOG2)))))"}
 

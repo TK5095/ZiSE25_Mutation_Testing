@@ -10,7 +10,7 @@
  /* TM1637 command bytes */
  #define CMD_DATA_AUTO    0x40
  #define CMD_ADDR         0xC0
- #define CMD_DISPLAY_CTRL 0x88
+ #define CMD_DISPLAY_CTRL 0x88U
  
  /* timing: ~50 µs */
  static inline void delay(void)
@@ -45,7 +45,7 @@
      uint8_t b = byte;
      for (int i = 0; i < 8; i++) {
          gpio_pin_set_dt(&dev->clk, 0);
-         gpio_pin_set_dt(&dev->dio, b & 0x01);
+         gpio_pin_set_dt(&dev->dio, b & 0x01U);
          delay();
          gpio_pin_set_dt(&dev->clk, 1);
          delay();
