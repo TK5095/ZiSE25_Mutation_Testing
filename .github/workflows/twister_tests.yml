@@ -1,0 +1,68 @@
+name: "temp_alert tests"
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - 'ECLAIR/**'
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+jobs:
+  Test:
+    runs-on: saas.eclairit.com
+    container:
+      image: ubuntu:24.04
+    steps:
+      - name: install tools
+        run: |
+          set -eu
+          apt update
+          apt install -y build-essential \
+                         wget \
+                         git \
+                         gcc-14 \
+                         cmake \
+                         ninja-build \
+                         device-tree-compiler \
+                         dfu-util \
+                         make \
+                         lcov \
+                         autoconf \
+                         python3 \
+                         python3-dev \
+                         python3-pip \
+                         python3-tk \
+                         python3-setuptools \
+                         python3-wheel \
+                         python3-venv \
+                         xz-utils \
+                         file \
+                         gcc-14-multilib \
+                         g++-14-multilib \
+                         libsdl2-dev
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+      - name: Prepare
+        run: |
+          set -eu
+          ./prepare.sh
+          . ../.venv/bin/activate
+          west sdk install
+      - name: Twister tests
+        run: |
+          set -eu
+          . ../.venv/bin/activate
+          west twister -T tests --platform native_sim
+      - name: Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test_artifacts
+          path: |
+            twister-out/testplan.json
+            twister-out/twister.log
+            twister-out/twister.json
+            twister-out/twister_report.xml
+            twister-out/twister_suite_report.xml
+            twister-out/twister.xml
