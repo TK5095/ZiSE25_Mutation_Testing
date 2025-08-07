@@ -20,6 +20,7 @@ jobs:
                          wget \
                          git \
                          gcc-14 \
+                         gcovr \
                          cmake \
                          ninja-build \
                          device-tree-compiler \
@@ -53,7 +54,7 @@ jobs:
         run: |
           set -eu
           . ../.venv/bin/activate
-          west twister -T tests --platform native_sim
+          west twister -T tests --coverage --platform native_sim
       - name: Upload test artifacts
         if: always()
         uses: actions/upload-artifact@v4
