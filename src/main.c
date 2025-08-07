@@ -46,7 +46,7 @@
 	 ARG_UNUSED(arg1);
 	 ARG_UNUSED(arg2);
 	 ARG_UNUSED(arg3);
-	 struct sensor_value temp;
+	 struct sensor_value temp = {0};
 	 int ret;
  
 	 while (true) {
