@@ -26,6 +26,8 @@ jobs:
           set -eu
           ./prepare.sh
       - name: Build and analyze with ECLAIR
+        env:
+          VARIANT: ${{ matrix.board }}
         run: |
           set -eu
           ./ECLAIR/analyze.sh ${{ matrix.board }}
@@ -48,4 +50,5 @@ jobs:
       - name: Publish ECLAIR results
         env:
           WTOKEN: ${{secrets.WTOKEN}}
+          VARIANT: ${{ matrix.board }}
         run: ECLAIR/action_push.sh "${WTOKEN}" build/sca/eclair
