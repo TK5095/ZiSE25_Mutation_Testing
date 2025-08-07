@@ -3,6 +3,8 @@
 -file_tag+={application_files,"^.*/ZiSe25/ZiSe25/(src|inc)/.*$"}
 -source_files+={hide, "!application_files"}
 
+-reports+={adopted, "all_area(all_loc(file(!application_files)))"}
+
 -config=MC4.R5.10,reports+={adopted, "any_area(any_loc(any_exp(macro(name(LOG_MODULE_DECLARE||Z_LOG2)))))"}
 
 -doc_begin="Allow pointers of non-character type as long as the pointee is const-qualified."
