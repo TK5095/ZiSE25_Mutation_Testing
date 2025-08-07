@@ -105,6 +105,8 @@
 		 } else if (!above && atomic_get(&alarm_flag) != 0) {
 			 atomic_set(&alarm_flag, 0);
 			 LOG_INF("Back below threshold");
+		 } else {
+			/* FIXME AC6: nothing to do here? */
 		 }
  
 		 k_sleep(K_SECONDS(1));
