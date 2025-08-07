@@ -7,6 +7,15 @@
 
 -reports+={adopted, "all_area(all_loc(file(!application_files)))"}
 
+-doc_begin="These functions do not store the address of the local variable."
+-call_properties+={"name(tm1637_write_segments)",
+                   {"taken()"}
+}
+-call_properties+={"name(display_write)",
+                   {"taken()"}
+}
+-doc_end
+
 ## Guideline-specific tailoring
 
 -config=MC4.R5.10,reports+={adopted, "any_area(any_loc(any_exp(macro(name(LOG_MODULE_DECLARE||Z_LOG2)))))"}
