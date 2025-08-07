@@ -31,4 +31,3 @@
  extern const uint8_t tm1637_segment_map[16];
  
  #endif /* TM1637_H_ */
- 

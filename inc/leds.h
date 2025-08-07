@@ -10,7 +10,7 @@
 int leds_init(void);
 
 /* Thread that flashes LEDs when alarm_flag is set */
-void leds_thread_fn(void *, void *, void *);
+void leds_thread_fn(void *a, void *b, void *c);
 
 extern atomic_t alarm_flag;
 

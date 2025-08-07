@@ -13,49 +13,50 @@
  #define CMD_DISPLAY_CTRL 0x88
  
  /* timing: ~50 µs */
- static inline void _delay(void)
+ static inline void delay(void)
  {
+
      k_busy_wait(50);
  }
  
- static void _start(const struct tm1637 *dev)
+ static void start(const struct tm1637 *dev)
  {
      gpio_pin_set_dt(&dev->dio, 1);
      gpio_pin_set_dt(&dev->clk, 1);
-     _delay();
+     delay();
      gpio_pin_set_dt(&dev->dio, 0);
-     _delay();
+     delay();
  }
  
- static void _stop(const struct tm1637 *dev)
+ static void stop(const struct tm1637 *dev)
  {
      gpio_pin_set_dt(&dev->clk, 0);
-     _delay();
+     delay();
      gpio_pin_set_dt(&dev->dio, 0);
-     _delay();
+     delay();
      gpio_pin_set_dt(&dev->clk, 1);
-     _delay();
+     delay();
      gpio_pin_set_dt(&dev->dio, 1);
-     _delay();
+     delay();
  }
  
- static void _send_byte(const struct tm1637 *dev, const uint8_t byte)
+ static void send_byte(const struct tm1637 *dev, const uint8_t byte)
  {
      uint8_t b = byte;
      for (int i = 0; i < 8; i++) {
          gpio_pin_set_dt(&dev->clk, 0);
          gpio_pin_set_dt(&dev->dio, b & 0x01);
-         _delay();
+         delay();
          gpio_pin_set_dt(&dev->clk, 1);
-         _delay();
+         delay();
          b >>= 1;
      }
      /* ACK cycle (we just pulse CLK with DIO as input, then back) */
      gpio_pin_set_dt(&dev->clk, 0);
      gpio_pin_configure_dt(&dev->dio, GPIO_INPUT);
-     _delay();
+     delay();
      gpio_pin_set_dt(&dev->clk, 1);
-     _delay();
+     delay();
      gpio_pin_configure_dt(&dev->dio, GPIO_OUTPUT);
  }
  
@@ -98,26 +99,26 @@
      if (brightness > TM1637_BRIGHTNESS_MAX) {
          return -EINVAL;
      }
-     _start(dev);
-     _send_byte(dev, CMD_DISPLAY_CTRL | brightness);
-     _stop(dev);
+     start(dev);
+     send_byte(dev, CMD_DISPLAY_CTRL | brightness);
+     stop(dev);
      return 0;
  }
  
  int tm1637_write_segments(const struct tm1637 *dev, const uint8_t segs[4])
  {
      /* 1) set auto-increment mode */
-     _start(dev);
-     _send_byte(dev, CMD_DATA_AUTO);
-     _stop(dev);
+     start(dev);
+     send_byte(dev, CMD_DATA_AUTO);
+     stop(dev);
  
      /* 2) write four digits starting at address 0 */
-     _start(dev);
-     _send_byte(dev, CMD_ADDR);
+     start(dev);
+     send_byte(dev, CMD_ADDR);
      for (int i = 0; i < 4; i++) {
-         _send_byte(dev, segs[i]);
+         send_byte(dev, segs[i]);
      }
-     _stop(dev);
+     stop(dev);
  
      return 0;
  }

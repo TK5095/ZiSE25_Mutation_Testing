@@ -10,7 +10,7 @@
 void buzzer_fire_pattern(void);
 
 /* Thread that runs the alarm when alarm_flag is set */
-void buzzer_thread_fn(void *, void *, void *);
+void buzzer_thread_fn(void *a, void *b, void *c);
 
 extern atomic_t alarm_flag;
 

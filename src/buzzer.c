@@ -9,6 +9,7 @@
  #include <zephyr/devicetree.h>
  #include <zephyr/kernel.h>
  #include <zephyr/logging/log.h>
+ #include <stdint.h>
  
  LOG_MODULE_DECLARE(temp_alarm);
  
@@ -17,6 +18,7 @@
  static const struct gpio_dt_spec buzzer = GPIO_DT_SPEC_GET(BUZZER_NODE, gpios);
  
  #define TONE_FREQ_HZ 2000U
+ #define BUZZER_NUM_TONES 3U
  
  static void play_tone(uint32_t freq_hz, uint32_t duration_ms)
  {
@@ -32,7 +34,7 @@
  
  void buzzer_fire_pattern(void)
  {
-     for (int i = 0; i < 3; i++) {
+     for (uint8_t i = 0U; i < BUZZER_NUM_TONES; i++) {
          play_tone(TONE_FREQ_HZ, 500);
          k_sleep(K_MSEC(500));
      }
