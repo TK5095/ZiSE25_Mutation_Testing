@@ -97,3 +97,15 @@ west build -p -b frdm_mcxn947/mcxn947/cpu0 -- -DZEPHYR_SCA_VARIANT=eclair
 ```bash
 west twister -T tests --platform native_sim
 ```
+
+## Requirements
+
+The system requirements are documented using the [StrictDoc](https://github.com/strictdoc-project/strictdoc) Requiremements Management tool
+in the plain text file `temp_alert.sdoc`. They can be browsed interactively on a web browser with the following commands:
+
+```bash
+# Prepare a python virtual environment or similar
+pip install strictdoc
+strictdoc server .
+```
+
