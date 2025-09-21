@@ -1,0 +1,11 @@
+west-commands:
+  - file: scripts/analyze_coverage_cmd.py
+    commands:
+      - name: analyze-coverage
+        class: AnalyzeCoverage
+        help: Run ECLAIR analysis on test coverage data
+  - file: scripts/analyze_requirements_cmd.py
+    commands:
+      - name: analyze-requirements
+        class: AnalyzeRequirements
+        help: Run ECLAIR analysis for requirements coverage
