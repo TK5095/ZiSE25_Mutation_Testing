@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -eu
+
+THIS=$(readlink -f "$0")
+
+if [ "$THIS" = "$GCOVR_EXE" ]; then
+  echo "Error: gcovr and gcov_trap cannot be the same file" >&2
+  exit 1
+fi
+
+exec "$GCOVR_EXE" -k "$@"
