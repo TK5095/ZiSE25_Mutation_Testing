@@ -1,0 +1,73 @@
+name: "ECLAIR pull request"
+on:
+  pull_request:
+    branches:
+      - main
+
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  ANALYSIS_KIND: normal
+  ENABLE_ECLAIR_BOT: true
+jobs:
+  Analyze:
+    strategy:
+      matrix:
+        board: ["frdm_mcxn947/mcxn947/cpu0", "stm32f746g_disco"]
+    runs-on: saas.eclairit.com
+    container:
+      image: bugseng/github-runner:latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+          fetch-depth: 2
+      - name: Changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v46.0.5
+        with:
+          files_yaml: |
+            src:
+              - src/**
+              - inc/**
+            config:
+              - Kconfig
+              - prj.conf
+              - CMakeLists.txt
+      - name: List all changed files
+        env:
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+        run: |
+          for f in ${CHANGED_FILES}; do
+            echo "${f}"
+          done
+      - name: Prepare
+        run: |
+          set -eu
+          ./setup.sh
+      - name: Set up ECLAIR analysis configuration
+        run: |
+          set -eu
+          echo "-setq=conf,mapconcat(:identity,${CHANGED_FILES},'|')" >> ECLAIR/analysis_MC.ecl
+          echo "-frames+={hide, "main(!^("conf")$)}"' >> ECLAIR/analysis_MC.ecl
+      - name: Build and analyze with ECLAIR
+        env:
+          VARIANT: ${{ matrix.board }}
+        run: |
+          set -eu
+          ./ECLAIR/analyze.sh ${{ matrix.board }}
+      - name: ECLAIR analysis log
+        if: always()
+        run: cat build/sca/eclair/DIAGNOSTIC.txt
+      - name: Artifact name
+        id: artifact_name
+        if: always()
+        run: |
+          set -eu
+          BOARD_NAME=${{ matrix.board }}
+          echo "ARTIFACT_NAME=ECLAIR_out_$(echo "${BOARD_NAME}" | tr '/' '_')" >> $GITHUB_ENV
+      - name: Publish ECLAIR results
+        env:
+          WTOKEN: ${{secrets.WTOKEN}}
+          VARIANT: ${GITHUB_REF_NAME}_${{ matrix.board }}
+        run: ECLAIR/action_pull_request.sh "${WTOKEN}" build/sca/eclair
