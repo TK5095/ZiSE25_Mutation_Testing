@@ -59,8 +59,14 @@ volatile"
 -config=STD.inclnest,behavior+={c99, zephyr_cc, 200}
 -doc_end
 
--doc_begin="Limited only by available memory; arbitrary value specified.
+-doc_begin="The number of macro identifiers in a file is limited only by available memory in the used toolchain; arbitrary high value specified.
 See Section \"11.2 Implementation limits\" of "CPP_MANUAL"."
 -config=STD.macident,behavior+={c99, zephyr_cc, 65535}
+-doc_end
+
+-doc_begin="A variadic macro is called without specifying any variadic argument.
+This is a C23 extension, which is supported as a language extension for C99
+by the toolchain used by the application."
+-config=STD.diag,behavior={c99, zephyr_cc, "name(ext_c_missing_varargs_arg)"}
 -doc_end
 
