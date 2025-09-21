@@ -3,15 +3,16 @@
 
 #include <zephyr/sys/atomic.h>
 
-#define THREAD_PRIORITY       5
+#define THREAD_PRIORITY     5
 #define BUZZER_THREAD_STACK 512
 
 /* Fire the Temporal-3 pattern once */
 void buzzer_fire_pattern(void);
 
 /* Thread that runs the alarm when alarm_flag is set */
-void buzzer_thread_fn(void *a, void *b, void *c);
+void buzzer_thread_fn(void * a, void * b, void * c);
 
 extern atomic_t alarm_flag;
 
 #endif /* BUZZER_H_ */
+

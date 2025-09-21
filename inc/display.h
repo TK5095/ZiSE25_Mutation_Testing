@@ -13,3 +13,4 @@ int display_write(const uint8_t segs[4]);
 extern const uint8_t tm1637_segment_map[16];
 
 #endif /* DISPLAY_H_ */
+

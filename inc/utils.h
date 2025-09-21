@@ -4,3 +4,4 @@
 #define noreturn __attribute__((noreturn))
 
 #endif /* UTILS_H */
+
