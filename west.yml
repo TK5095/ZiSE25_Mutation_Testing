@@ -20,3 +20,4 @@ manifest:
           - hal_stm32
   self:
     path: temp_alert
+    west-commands: west-commands.yml
