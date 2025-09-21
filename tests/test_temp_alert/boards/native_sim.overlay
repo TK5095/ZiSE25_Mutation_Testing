@@ -1,0 +1,58 @@
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+
+/ {
+	aliases {
+		buzzer = &buzzer0;
+		led0 = &orange_led;
+		led1 = &blue_led;
+		led2 = &green_led;
+		led3 = &red_led;
+	};
+
+	leds: leds {
+		compatible = "gpio-leds";
+
+		orange_led: orange_led {
+			gpios = <&gpio0 4 GPIO_ACTIVE_HIGH>;
+            status = "okay";
+		};
+
+		blue_led: blue_led {
+			gpios = <&gpio0 5 GPIO_ACTIVE_HIGH>;
+            status = "okay";
+		};
+
+		green_led: green_led {
+			gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
+            status = "okay";
+		};
+
+		red_led: red_led {
+			gpios = <&gpio0 7 GPIO_ACTIVE_HIGH>;
+            status = "okay";
+		};
+
+		buzzer0: buzzer0 {
+			gpios = <&gpio0 8 GPIO_ACTIVE_HIGH>;
+            status = "okay";
+		};
+        tm1637_clk: tm1637_clk {
+            gpios = <&gpio0 9 GPIO_ACTIVE_HIGH>;
+            status = "okay";
+        };
+
+        tm1637_din: tm1637_din {
+            gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
+            status = "okay";
+        };
+	};
+};
+
+&i2c0 {
+    bme280@76 {
+        compatible = "bosch,bme280";
+        reg = <0x76>;
+        label = "BME280 Sim";
+        status = "okay";
+    };
+};

@@ -83,3 +83,8 @@ cd temp_alert
 west build -p -b frdm_mcxn947/mcxn947/cpu0 -- -DZEPHYR_SCA_VARIANT=eclair
 ```
 
+## Testing
+
+```bash
+west twister -T tests --platform native_sim
+```

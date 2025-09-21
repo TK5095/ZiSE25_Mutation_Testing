@@ -1,0 +1,19 @@
+common:
+  tags:
+    - display
+    - temp_alert
+    - unit
+  filter: CONFIG_ZTEST
+  harness: ztest
+  integration_platforms:
+    - native_sim
+
+tests:
+  temp_alert.display:
+    tags:
+      - display
+      - temp_alert
+      - unit
+    platform_allow:
+      - native_sim
+    harness: ztest

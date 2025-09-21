@@ -38,8 +38,11 @@
  SYS_INIT(sensor_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
  
  /*--- temp thread: fetch & log & display & set alarm_flag ---*/
- static void temp_thread_fn(void *, void *, void *)
+ static void temp_thread_fn(void * arg1, void * arg2, void * arg3)
  {
+	 ARG_UNUSED(arg1);
+	 ARG_UNUSED(arg2);
+	 ARG_UNUSED(arg3);
 	 struct sensor_value temp;
 	 int ret;
  
