@@ -39,7 +39,7 @@ mkdir -p "${ECLAIR_DATA_DIR}"
     echo "Cleaning project."
     ./clean.sh "${BOARD}"
     echo "Starting ECLAIR Analysis."
-    ./build.sh "${BOARD}"
+    ./build.sh "${BOARD}" MC
 )
 
 echo "Analysis completed."
