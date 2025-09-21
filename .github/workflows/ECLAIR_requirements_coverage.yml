@@ -1,0 +1,56 @@
+name: "ECLAIR coverage and requirements"
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - 'tests/**'
+
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  ENABLE_ECLAIR_BOT: true
+jobs:
+  Coverage-and-Requirements:
+    runs-on: saas.eclairit.com
+    container:
+      image: bugseng/github-runner:latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+      - name: Prepare
+        run: |
+          set -eu
+          ./setup.sh
+      - name: Build and analyze requirements coverage with ECLAIR
+        run: |
+          set -eu
+          . ../.venv/bin/activate
+          west analyze-requirements -t native_sim
+      - name: Build and analyze coverage with ECLAIR
+        run: |
+          set -eu
+          . ../.venv/bin/activate
+          west analyze-coverage
+      - name: ECLAIR analysis log
+        if: always()
+        run: cat ECLAIR/coverage_analysis_out/DIAGNOSTICS.txt
+      - name: Artifact name
+        id: artifact_name
+        if: always()
+        run: |
+          set -eu
+          echo "ARTIFACT_NAME=ECLAIR_out_coverage" >> $GITHUB_ENV
+      - name: Publish ECLAIR requirements traceability results
+        env:
+          WTOKEN: ${{secrets.WTOKEN}}
+          VARIANT: ${{ matrix.board }}
+          ANALYSIS_KIND: "requirements coverage"
+        run: ECLAIR/action_push.sh "${WTOKEN}" ECLAIR/requirements_analysis_out
+      - name: Publish ECLAIR code coverage results
+        env:
+          WTOKEN: ${{secrets.WTOKEN}}
+          VARIANT: ${{ matrix.board }}
+          ANALYSIS_KIND: "test coverage"
+        run: ECLAIR/action_push.sh "${WTOKEN}" ECLAIR/coverage_analysis_out
+
