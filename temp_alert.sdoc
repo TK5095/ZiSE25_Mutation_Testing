@@ -1,6 +1,29 @@
 [DOCUMENT]
 TITLE: Temperature Alert Application Specification
 
+[GRAMMAR]
+ELEMENTS:
+- TAG: REQUIREMENT
+  FIELDS:
+  - TITLE: UID
+    TYPE: String
+    REQUIRED: True
+  - TITLE: TITLE
+    TYPE: String
+    REQUIRED: True
+  - TITLE: COMPONENT
+    TYPE: MultipleChoice(APP_DISPLAY, APP_BUZZER, APP_LEDS)
+    REQUIRED: False
+  - TITLE: STATEMENT
+    TYPE: String
+    REQUIRED: True
+  - TITLE: RATIONALE
+    TYPE: String
+    REQUIRED: False
+  RELATIONS:
+  - TYPE: Parent
+  - TYPE: File
+
 [[SECTION]]
 TITLE: High-Level Requirements
 
@@ -11,9 +34,6 @@ STATEMENT: >>>
 The system shall continuously monitor temperature readings from a
 temperature sensor device.
 <<<
-RATIONALE: >>>
-TBW.
-<<<
 
 [REQUIREMENT]
 UID: HLR-02
@@ -21,9 +41,6 @@ TITLE: Temperature Threshold
 STATEMENT: >>>
 The system shall be configured with a threshold temperature ``t_0`` at
 which an alarm is triggered.
-<<<
-RATIONALE: >>>
-TBW.
 <<<
 
 [REQUIREMENT]
@@ -33,9 +50,6 @@ STATEMENT: >>>
 The system shall compare each temperature reading ``t`` with the threshold
 ``t_0``. If ``t >= t_0``, it shall raise an alarm condition.
 <<<
-RATIONALE: >>>
-TBW.
-<<<
 
 [REQUIREMENT]
 UID: HLR-04
@@ -44,9 +58,6 @@ STATEMENT: >>>
 When an alarm condition is detected, the system shall activate a
 buzzer to produce an audible alert.
 <<<
-RATIONALE: >>>
-TBW.
-<<<
 
 [REQUIREMENT]
 UID: HLR-05
@@ -54,18 +65,12 @@ TITLE: LED Alarm
 STATEMENT: >>>
 When an alarm condition is detected, the system shall flash visual indicators using available LEDs.
 <<<
-RATIONALE: >>>
-TBW.
-<<<
 
 [REQUIREMENT]
 UID: HLR-06
 TITLE: Display Temperature Reading
 STATEMENT: >>>
 The system shall display the current temperature on a 4-digit 7-segment display.
-<<<
-RATIONALE: >>>
-TBW.
 <<<
 
 [REQUIREMENT]
@@ -75,7 +80,7 @@ STATEMENT: >>>
 The system shall update its display and alarm condition at a regular interval, no slower than once per second.
 <<<
 RATIONALE: >>>
-TBW.
+A regular update interval ensures that the displayed temperature and alarm signals remain synchronized and responsive. Limiting the interval to ≤1 s balances timeliness with CPU and power consumption.
 <<<
 
 [REQUIREMENT]
@@ -84,18 +89,12 @@ TITLE: Deactivating Alarms
 STATEMENT: >>>
 The system shall deactivate the alarm (audible and visual) when the temperature falls below the threshold.
 <<<
-RATIONALE: >>>
-TBW.
-<<<
 
 [REQUIREMENT]
 UID: HLR-09
 TITLE: System startup
 STATEMENT: >>>
 The system shall run autonomously on boot using statically initialized threads and devices.
-<<<
-RATIONALE: >>>
-TBW.
 <<<
 
 [REQUIREMENT]
@@ -104,9 +103,6 @@ TITLE: Software Platform
 STATEMENT: >>>
 The system shall be designed to operate on Zephyr RTOS using the platform’s
 abstractions for GPIO, I²C sensors, threads, and logging.
-<<<
-RATIONALE: >>>
-TBW.
 <<<
 
 [REQUIREMENT]
@@ -117,7 +113,7 @@ The system shall fail gracefully on transient sensor errors by logging via
 Zephyr logging and retrying periodic sampling without crashing or deadlocking.
 <<<
 RATIONALE: >>>
-TBW.
+Transient I2C or sensor errors are common in embedded systems due to noise or bus contention. Graceful handling (logging + retry) prevents false alarms and ensures the system remains stable without requiring a reset
 <<<
 
 [[/SECTION]]
@@ -131,9 +127,9 @@ TITLE: Temperature Reading Sampling
 STATEMENT: >>>
 Temperature readings shall be sampled with a precision of at least **1°C** and at a frequency of at least **1 Hz**.
 <<<
-RATIONALE: >>>
-TBW.
-<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: HLR-01
 
 [REQUIREMENT]
 UID: LLR-02
@@ -141,9 +137,9 @@ TITLE: Threshold Temperature Configuration
 STATEMENT: >>>
 The threshold temperature ``t_0`` shall be statically configured as a constant in the firmware and shall be accurate to within **1°C**.
 <<<
-RATIONALE: >>>
-TBW.
-<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: HLR-02
 
 [REQUIREMENT]
 UID: LLR-03
@@ -152,8 +148,11 @@ STATEMENT: >>>
 The audible alarm shall consist of **3 repetitions** of a **2000 Hz** tone lasting **500 ms**, each separated by a **500 ms** pause, followed by a **1.5-second delay** before repeating.
 <<<
 RATIONALE: >>>
-TBW.
+The audible alarm pattern is chosen to be clearly distinguishable by human listeners while conserving energy. The 2000 Hz frequency is within the optimal range of piezo buzzers and human auditory sensitivity.
 <<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: HLR-04
 
 [REQUIREMENT]
 UID: LLR-04
@@ -162,8 +161,11 @@ STATEMENT: >>>
 The visual alarm shall consist of sequential flashing of **4 LEDs**, each turned on for **100 ms** and off immediately before moving to the next LED; the sequence shall repeat while the alarm condition is present.
 <<<
 RATIONALE: >>>
-TBW.
+Sequential flashing of LEDs makes the alarm visually noticeable. The rolling pattern conveys urgency more effectively.
 <<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: HLR-05
 
 [REQUIREMENT]
 UID: LLR-06
@@ -174,9 +176,9 @@ The display shall show temperature in the format `DD.dd`, where:
 - `dd` is the two most significant digits of the decimal part,
 - A decimal point shall be shown between `DD` and `dd`.
 <<<
-RATIONALE: >>>
-TBW.
-<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: HLR-06
 
 [REQUIREMENT]
 UID: LLR-07
@@ -184,9 +186,9 @@ TITLE: Termperature Reading Failure
 STATEMENT: >>>
 If temperature reading fails, the system shall retry every second and log an error message using the Zephyr logging system.
 <<<
-RATIONALE: >>>
-TBW.
-<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: HLR-11
 
 [REQUIREMENT]
 UID: LLR-08
@@ -194,9 +196,9 @@ TITLE: Alarm deactivation when temperature below threshold
 STATEMENT: >>>
 The alarm shall deactivate automatically when the temperature reading is below \( t_0 \) for at least one update cycle.
 <<<
-RATIONALE: >>>
-TBW.
-<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: HLR-08
 
 [REQUIREMENT]
 UID: LLR-09
@@ -205,8 +207,11 @@ STATEMENT: >>>
 Initialization of devices and subsystems (sensor, display, buzzer, LEDs) shall occur at Zephyr ``APPLICATION`` init level via ``SYS_INIT``.
 <<<
 RATIONALE: >>>
-TBW.
+Using Zephyr’s APPLICATION init level via SYS_INIT guarantees that hardware drivers are initialized before application threads start. This avoids issues where threads attempt to use devices before they are ready.
 <<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: HLR-09
 
 [REQUIREMENT]
 UID: LLR-10
@@ -215,8 +220,11 @@ STATEMENT: >>>
 All hardware interfaces, GPIOs (buzzer, LEDs, TM1637) and the temperature sensor, shall be obtained from DeviceTree.
 <<<
 RATIONALE: >>>
-TBW.
+DeviceTree-based configuration allows board-specific pin assignments and compatible sensors to be changed without altering application source code, improving portability across different boards (e.g., STM32F746G vs. FRDM-MCXN947).
 <<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: HLR-10
 
 [[/SECTION]]
 
@@ -226,20 +234,20 @@ TITLE: Software Requirements Specification
 [REQUIREMENT]
 UID: SRS-01
 TITLE: Display Initialization
+COMPONENT: APP_DISPLAY
 STATEMENT: >>>
 Function:
 ```c
 int display_init(void);
 ```
 
-Shall initialize the TM1637 display using GPIOs defined in the device tree.  
-It will return `0` on success or a negative error code on failure.  
+Shall initialize the TM1637 display using GPIOs defined in the device tree.
+It will return `0` on success or a negative error code on failure.
 This function is automatically called at the `APPLICATION` init level.
-
 <<<
-RATIONALE: >>>
-TBW.
-<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: LLR-09
 
 [REQUIREMENT]
 UID: SRS-02
@@ -250,14 +258,13 @@ Function:
 int display_write(const uint8_t segs[4]);
 ```
 
-Shall write a 4-digit segment pattern to the TM1637 display.  
-It expects values matching the format of `tm1637_segment_map` with optional decimal points in bit 7.  
+Shall write a 4-digit segment pattern to the TM1637 display.
+It expects values matching the format of `tm1637_segment_map` with optional decimal points in bit 7.
 Returns `0` on success or a negative error code otherwise.
-
 <<<
-RATIONALE: >>>
-TBW.
-<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: LLR-06
 
 [REQUIREMENT]
 UID: SRS-03
@@ -267,12 +274,12 @@ Function:
 ```c
 int tm1637_init(const struct tm1637 *dev);
 ```
-Shall configure the TM1637 CLK and DIO lines for GPIO output.  
+Shall configure the TM1637 CLK and DIO lines for GPIO output.
 Returns `0` on success or `-ENODEV` if either GPIO port is not ready.
 <<<
-RATIONALE: >>>
-TBW.
-<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: LLR-09
 
 [REQUIREMENT]
 UID: SRS-04
@@ -286,8 +293,11 @@ void buzzer_fire_pattern(void);
 Shall generate a pattern of three 500 ms beeps at 2000 Hz, each separated by 500 ms silence, followed by 1500 ms delay.
 <<<
 RATIONALE: >>>
-TBW.
+The chosen alarm pattern (three short tones followed by a pause) is intentionally distinct and disruptive, ensuring that users recognize it as an indication of abnormal or hazardous conditions (e.g., temperature above safe threshold).
 <<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: LLR-03
 
 [REQUIREMENT]
 UID: SRS-05
@@ -298,12 +308,12 @@ Function:
 void leds_thread_fn(void *, void *, void *);
 ```
 
-Shall monitor the global `alarm_flag`. If set, sequentially flash LEDs 0 to 3, each for 100 ms, repeating indefinitely.  
+Shall monitor the global `alarm_flag`. If set, sequentially flash LEDs 0 to 3, each for 100 ms, repeating indefinitely.
 If not set, it shall sleep for 200 ms.
 <<<
-RATIONALE: >>>
-TBW.
-<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: LLR-04
 
 [REQUIREMENT]
 UID: SRS-06
@@ -314,13 +324,12 @@ Function:
 void buzzer_thread_fn(void *, void *, void *);
 ```
 
-Shall monitor the global `alarm_flag`. If set, trigger the `buzzer_fire_pattern` function continuously.  
+Shall monitor the global `alarm_flag`. If set, trigger the `buzzer_fire_pattern` function continuously.
 If not set, it shall sleep for 200 ms.
-
 <<<
-RATIONALE: >>>
-TBW.
-<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: LLR-03
 
 [REQUIREMENT]
 UID: SRS-07
@@ -339,7 +348,10 @@ Shall:
 - Update the `alarm_flag` if the temperature exceeds or drops below the threshold.
 <<<
 RATIONALE: >>>
-TBW.
+Centralizing sensor sampling, logging, display updates, and alarm flag management in a single thread ensures consistency of system state. This avoids race conditions that might arise if separate threads manipulated the alarm flag independently.
 <<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: LLR-08
 
 [[/SECTION]]
