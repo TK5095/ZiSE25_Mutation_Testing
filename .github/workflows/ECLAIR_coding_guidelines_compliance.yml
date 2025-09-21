@@ -1,15 +1,16 @@
-name: "ECLAIR normal"
+name: "ECLAIR coding guidelines compliance"
 on:
   push:
     paths-ignore:
       - 'README.md'
       - 'tests/**'
+
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-  ANALYSIS_KIND: normal
+  ANALYSIS_KIND: "coding guidelines compliance"
   ENABLE_ECLAIR_BOT: true
 jobs:
-  Analyze:
+  Coding-Guidelines:
     strategy:
       matrix:
         board: ["frdm_mcxn947/mcxn947/cpu0", "stm32f746g_disco"]
@@ -24,13 +25,21 @@ jobs:
       - name: Prepare
         run: |
           set -eu
-          ./prepare.sh
+          ./setup.sh
       - name: Build and analyze with ECLAIR
+        id: build_and_analyze_with_eclair
         env:
           VARIANT: ${{ matrix.board }}
         run: |
           set -eu
           ./ECLAIR/analyze.sh ${{ matrix.board }}
+      - name: Check regressions
+        id: regressions
+        env:
+          cleanRegressionsLog: build/sca/eclair/clean_regressions.log
+        run: |
+          set -eu
+          ./ECLAIR/action_check_clean_regressions.sh build/sca/eclair
       - name: ECLAIR analysis log
         if: always()
         run: cat build/sca/eclair/DIAGNOSTIC.txt
@@ -41,13 +50,8 @@ jobs:
           set -eu
           BOARD_NAME=${{ matrix.board }}
           echo "ARTIFACT_NAME=ECLAIR_out_$(echo "${BOARD_NAME}" | tr '/' '_')" >> $GITHUB_ENV
-      - name: Upload ECLAIR artifacts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.ARTIFACT_NAME }}
-          path: build/sca/eclair/*
       - name: Publish ECLAIR results
+        if: always()
         env:
           WTOKEN: ${{secrets.WTOKEN}}
           VARIANT: ${{ matrix.board }}
