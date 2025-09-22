@@ -125,12 +125,11 @@ enabled. It produces code coverage reports in directory `twister-out`:
 west twister --coverage --coverage-basedir . -T tests --platform native_sim
 ```
 
-<!-- TODO rephrase this: (and possibly replace the paragraph above) -->
-Code coverage data can also be analyzed with ECLAIR to generate coverage reports.
+Code coverage can also be analyzed with ECLAIR to generate coverage reports:
 ```bash
 west analyze-coverage
 ```
-which generates runs the twister tests and generates an ECLAIR database in
+which will produce an ECLAIR database in
 `ECLAIR/coverage_analysis_out/PROJECT.ecd`.
 
 ## Requirements
@@ -147,13 +146,12 @@ strictdoc server .
 
 The web server can be accessed by clicking the link in the terminal output.
 
-<!-- TODO rephrase this: (and possibly replace the paragraph above) -->
 Requirements coverage can be analyzed with ECLAIR with the following
 [custom command](./scripts/analyze_requirements_cmd.py):
 ```bash
 west analyze-requirements -t native_sim
 ```
-which generates runs the twister tests and generates an ECLAIR database in
+which will produce an ECLAIR database in
 `ECLAIR/requirements_analysis_out/PROJECT.ecd`.
 
 ## Working on temp_alert
