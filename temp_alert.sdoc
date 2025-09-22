@@ -130,6 +130,8 @@ Temperature readings shall be sampled with a precision of at least **1°C** and 
 RELATIONS:
 - TYPE: Parent
   VALUE: HLR-01
+- TYPE: Parent
+  VALUE: HLR-07
 
 [REQUIREMENT]
 UID: LLR-02
@@ -226,6 +228,16 @@ RELATIONS:
 - TYPE: Parent
   VALUE: HLR-10
 
+[REQUIREMENT]
+UID: LLR-11
+TITLE: Temperature Comparison Implementation
+STATEMENT: >>>
+The system shall implement temperature comparison using integer arithmetic, where the temperature reading is compared with the threshold using the condition ``(temp.val1 > threshold) || (temp.val1 == threshold && temp.val2 >= 0)`` to handle fractional parts correctly.
+<<<
+RELATIONS:
+- TYPE: Parent
+  VALUE: HLR-03
+
 [[/SECTION]]
 
 [[SECTION]]
@@ -248,10 +260,13 @@ This function is automatically called at the `APPLICATION` init level.
 RELATIONS:
 - TYPE: Parent
   VALUE: LLR-09
+- TYPE: Parent
+  VALUE: LLR-10
 
 [REQUIREMENT]
 UID: SRS-02
 TITLE: Display Write
+COMPONENT: APP_DISPLAY
 STATEMENT: >>>
 Function:
 ```c
@@ -269,6 +284,7 @@ RELATIONS:
 [REQUIREMENT]
 UID: SRS-03
 TITLE: Intialization of tm1637
+COMPONENT: APP_DISPLAY
 STATEMENT: >>>
 Function:
 ```c
@@ -280,10 +296,13 @@ Returns `0` on success or `-ENODEV` if either GPIO port is not ready.
 RELATIONS:
 - TYPE: Parent
   VALUE: LLR-09
+- TYPE: Parent
+  VALUE: LLR-10
 
 [REQUIREMENT]
 UID: SRS-04
 TITLE: Buzzer fire pattern
+COMPONENT: APP_BUZZER
 STATEMENT: >>>
 Function:
 ```c
@@ -302,6 +321,7 @@ RELATIONS:
 [REQUIREMENT]
 UID: SRS-05
 TITLE: LEDs thread function
+COMPONENT: APP_LEDS
 STATEMENT: >>>
 Function:
 ```c
@@ -318,6 +338,7 @@ RELATIONS:
 [REQUIREMENT]
 UID: SRS-06
 TITLE: Buzzer thread function
+COMPONENT: APP_BUZZER
 STATEMENT: >>>
 Function:
 ```c
@@ -351,6 +372,14 @@ RATIONALE: >>>
 Centralizing sensor sampling, logging, display updates, and alarm flag management in a single thread ensures consistency of system state. This avoids race conditions that might arise if separate threads manipulated the alarm flag independently.
 <<<
 RELATIONS:
+- TYPE: Parent
+  VALUE: LLR-01
+- TYPE: Parent
+  VALUE: LLR-11
+- TYPE: Parent
+  VALUE: LLR-02
+- TYPE: Parent
+  VALUE: LLR-07
 - TYPE: Parent
   VALUE: LLR-08
 

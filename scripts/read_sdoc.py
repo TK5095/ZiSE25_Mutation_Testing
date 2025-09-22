@@ -11,6 +11,7 @@ from typing import List, Dict, Generator
 class Requirement:
     uid: str
     parents: List[str]
+    component: str | None = None
 
     def __init__(self, uid: str):
         self.uid = uid
@@ -38,12 +39,20 @@ def requirements_from_node(node: SDocElementIF | List[SDocElementIF]) -> Generat
     if node_type == "REQUIREMENT":
         fields: List[SDocNodeField] = getattr(node, "fields", [])
         uid: str | None = None
+        component: str | None = None
+
         for field in fields:
             if field.field_name == "UID":
                 uid = field.get_text_value()
+            elif field.field_name == "COMPONENT":
+                component = field.get_text_value()
+
         if uid is None:
             raise Exception("Requirement node without UID field.")
+
         requirement = Requirement(uid)
+        requirement.component = component
+
         # get relations
         if hasattr(node, "relations"):
             relations = getattr(node, "relations", [])

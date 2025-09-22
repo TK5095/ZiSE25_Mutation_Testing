@@ -2,7 +2,7 @@
 import click
 from read_sdoc import extract_requirements_from_file
 import jinja2
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 import re
 
 TEMPLATE= """{% raw %}
@@ -23,8 +23,17 @@ TEMPLATE= """{% raw %}
 {% endfor %}
 """
 
-def build_config(sdoc: str, requirement_sets: List[Tuple[str, str]]) -> str:
+def build_config(sdoc: str, requirement_sets: List[Tuple[str, str]], enabled_components: Optional[List[str]] = None) -> str:
     requirements = extract_requirements_from_file(sdoc)
+
+    # Filter requirements by enabled components if specified
+    if enabled_components is not None:
+        filtered_requirements = {}
+        for uid, req in requirements.items():
+            # Include requirement if it has no component tag, or if its component is enabled
+            if req.component is None or req.component in enabled_components:
+                filtered_requirements[uid] = req
+        requirements = filtered_requirements
 
     rules = [(set_name, re.compile(pattern)) for set_name, pattern in requirement_sets]
 
@@ -46,8 +55,14 @@ def build_config(sdoc: str, requirement_sets: List[Tuple[str, str]]) -> str:
     multiple=True,
     type=(str, str),
     help="Requirement set as name and regex pattern (e.g., -r I 'I-.*')")
-def main(sdoc: str, requirement_set: List[Tuple[str, str]]) -> None:
-    output = build_config(sdoc, requirement_set)
+@click.option(
+    "--enabled-component", "-c",
+    multiple=True,
+    type=str,
+    help="Enabled component (e.g., -c APP_DISPLAY -c APP_BUZZER)")
+def main(sdoc: str, requirement_set: List[Tuple[str, str]], enabled_component: List[str]) -> None:
+    enabled_components = list(enabled_component) if enabled_component else None
+    output = build_config(sdoc, requirement_set, enabled_components)
     print(output)
 
 

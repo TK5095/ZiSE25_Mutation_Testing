@@ -6,7 +6,7 @@ import shutil
 from argparse import Namespace
 import build_reqman_configuration as req_config
 
-from typing import List
+from typing import List, Optional, Dict
 
 
 HERE = os.path.abspath(os.path.dirname(__file__))
@@ -30,6 +30,7 @@ class AnalyzeRequirements(WestCommand):
 
         parser.add_argument('board', type=str, help='Board name to build for (e.g., native_posix)')
         parser.add_argument('--tests', '-t', action='store_true', help='include test files in analysis')
+        parser.add_argument('--config', '-c', action='store_true', help='filter requirements based on current Kconfig')
 
         return parser
 
@@ -49,7 +50,7 @@ class AnalyzeRequirements(WestCommand):
         project_dir: str = self.manifest.repo_abspath
         os.makedirs(self._out_dir(), exist_ok=True)
 
-        self._build_reqman_config()
+        self._build_reqman_config(args)
         self._clean_build(args)
         self._run_eclair_analysis(args)
 
@@ -85,12 +86,61 @@ class AnalyzeRequirements(WestCommand):
     def _eclair_db(self) -> str:
         return os.path.join(self._eclair_out_dir(), 'PROJECT.ecd')
 
-    def _build_reqman_config(self) -> None:
+    def _read_kconfig(self, build_dir: str) -> Dict[str, bool]:
+        """Read Kconfig values from the build directory."""
+        config_file = os.path.join(build_dir, 'zephyr', '.config')
+        config = {}
+        
+        if os.path.exists(config_file):
+            with open(config_file, 'r') as f:
+                for line in f:
+                    line = line.strip()
+                    if line.startswith('CONFIG_') and '=' in line:
+                        key, value = line.split('=', 1)
+                        config[key] = value == 'y'
+        
+        return config
+
+    def _get_enabled_components(self, args: Namespace) -> Optional[List[str]]:
+        """Get list of enabled components based on Kconfig."""
+        if not args.config:
+            return None
+
+        # Get build directory
+        if not self.manifest or not self.manifest.repo_abspath:
+            self.die('No west manifest repo_abspath')
+        build_dir = os.path.join(self.manifest.repo_abspath, 'build')
+
+        # Config-only build
+        if not os.path.exists(build_dir):
+            self.inf('No build directory found, running configuration...')
+            cmd = ["west", "build", "-b", args.board, "--cmake-only"]
+            self.run_subprocess(cmd).check_returncode()
+
+        # Read Kconfig values
+        config = self._read_kconfig(build_dir)
+
+        enabled_components = []
+        if config.get('CONFIG_APP_DISPLAY', False):
+            enabled_components.append('APP_DISPLAY')
+        if config.get('CONFIG_APP_BUZZER', False):
+            enabled_components.append('APP_BUZZER')
+        if config.get('CONFIG_APP_LEDS', False):
+            enabled_components.append('APP_LEDS')
+            
+        self.inf(f'Enabled components from Kconfig: {enabled_components}')
+        return enabled_components
+
+    def _build_reqman_config(self, args: Namespace) -> None:
+        # Get enabled components Kconfig
+        enabled_components = self._get_enabled_components(args)
+        
         output = req_config.build_config(
             os.path.abspath(os.path.join(HERE, '../temp_alert.sdoc')),
             [
                 ('SRS', 'SRS-.*'),
             ],
+            enabled_components
         )
         config_path = os.path.join(self._eclair_dir(), 'temp_alert.sdoc.ecl')
         with open(config_path, 'w') as f:

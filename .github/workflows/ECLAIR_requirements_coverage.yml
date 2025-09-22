@@ -13,6 +13,7 @@ jobs:
     runs-on: saas.eclairit.com
     container:
       image: bugseng/github-runner:latest
+    environment: requirements-page
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -22,11 +23,58 @@ jobs:
         run: |
           set -eu
           ./setup.sh
+      - name: Validate temp_alert.sdoc with StrictDoc
+        run: |
+          set -eu
+          . ../.venv/bin/activate
+          strictdoc export --formats=html temp_alert.sdoc --output-dir strictdoc_output
+      - name: Deploy StrictDoc HTML
+        id: strictdoc-deploy
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: './strictdoc_output/html'
+          production-branch: main
+          deploy-message: "Deploy temp_alert requirements documentation"
+          enable-pull-request-comment: false
+          enable-commit-comment: false
+          enable-github-deployment: false
+          enable-commit-status: false
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      - name: Upload StrictDoc HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: strictdoc-html
+          path: strictdoc_output/
+          retention-days: 30
+      - name: Post requirements summary
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const deployUrl = '${{ steps.strictdoc-deploy.outputs.deploy-url }}';
+            const sha = '${{ github.sha }}';
+            
+            const body = `<img src="https://saas.eclairit.com:3787/rsrc/eclair.svg" width="100" /> Requirements Documentation
+
+            [Browse requirements document](${deployUrl})`;
+
+            await github.rest.repos.createCommitComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: sha,
+              body: body
+            });
+      - name: Check temp_alert.sdoc
+        run: |
+          set -eu && \
+          . ../.venv/bin/activate && \
+          ./scripts/check_requirements.py temp_alert.sdoc
       - name: Build and analyze requirements coverage with ECLAIR
         run: |
           set -eu
           . ../.venv/bin/activate
-          west analyze-requirements -t native_sim
+          west analyze-requirements -t native_sim --config
       - name: Build and analyze coverage with ECLAIR
         run: |
           set -eu
