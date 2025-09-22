@@ -144,11 +144,6 @@
 -config=B.INDEPENDENCE,component_allows+=
   "from(APPLICATION)&&to(ZEP/SENSOR)&&action(include||call)"
 
-# TODO maybe this belongs to interface visibility
--doc="APPLICATION can include the ZEP/KERNEL headers."
--config=B.INDEPENDENCE,component_allows+=
-  "from(APPLICATION)&&to(ZEP/KERNEL)&&action(include)"
-
 # Hardware access isolation
 
 -doc="BUZZER, DISPLAY LEDS can include ZEP/MMIO component."
@@ -159,13 +154,11 @@
 -config=B.INDEPENDENCE,component_allows+=
   "from(BUZZER||DISPLAY||LEDS)&&to(ZEP/DEVICE_TREE)&&action(include||expand||call)"
 
-# Data ownership
+# Data ownership and Interface visibiliry
 
-# TODO implement only \verb|APPLICATION| (\texttt{temp\_thread\_fn}) may write
-# the shared temperature and alarm flag; \verb|BUZZER| and \verb|LEDS|
-# may only read.
-
-# Interface visibiliry
+-doc="APPLICATION can include the ZEP/KERNEL headers."
+-config=B.INDEPENDENCE,component_allows+=
+  "from(APPLICATION)&&to(ZEP/KERNEL)&&action(include)"
 
 -doc="APPLICATION, BUZZER, DISPLAY and LEDS make use of threading, timing and logging."
 -config=B.INDEPENDENCE,component_allows+=

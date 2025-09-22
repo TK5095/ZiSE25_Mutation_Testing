@@ -133,7 +133,7 @@ static void noreturn temp_thread_fn (void * arg1, void * arg2, void * arg3)
     }
     else
     {
-      /* FIXME AC6: nothing to do here? */
+      /* No threshold crossing detected; maintain current alarm_flag. */
     }
 
     k_sleep(K_SECONDS(1));

@@ -12,7 +12,6 @@ This configuration specifies where the requirements for a given set and coverage
 
 -doc_begin="Coverage targets for each requirement set and testing coverage.
 This configuration specifies where the requirements for a given set and coverage should be expected."
-# TODO fix target, they are likely not in app.dir 
 -config=MC4.D3.1,coverage_target+={
     "target(kind(object)&&^.*?(build|twister-out.*?)/.*/app\\.dir/test_.*$)",
     "set(SRS)&&cov(TEST)"
@@ -31,7 +30,7 @@ This configuration specifies the code constructs that are expected to be associa
 -file_tag+={App_UT, "^.*?tests/test_temp_alert/.*\\.c$"}
 -config=MC4.D3.1,covering_construct+={
     decl,
-    "loc(any_exp(file(App_UT)))&&kind(var)&&^z_ztest_unit_test_stats_.*$", # TODO loc(any_exp(file(App_UT))&&macro(^ZTEST$))
+    "loc(any_exp(file(App_UT)))&&kind(var)&&^z_ztest_unit_test_stats_.*$",
     "set(SRS)&&cov(TEST)"
 }
 -doc_end
