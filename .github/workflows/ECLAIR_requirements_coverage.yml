@@ -54,17 +54,22 @@ jobs:
           script: |
             const deployUrl = '${{ steps.strictdoc-deploy.outputs.deploy-url }}';
             const sha = '${{ github.sha }}';
-            
+            const fs = require('fs');
+
             const body = `<img src="https://saas.eclairit.com:3787/rsrc/eclair.svg" width="100" /> Requirements Documentation
 
             [Browse requirements document](${deployUrl})`;
 
+            // Post commit comment
             await github.rest.repos.createCommitComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               commit_sha: sha,
               body: body
             });
+
+            // Add to workflow run summary
+            fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, body + '\n');
       - name: Check temp_alert.sdoc
         run: |
           set -eu && \
