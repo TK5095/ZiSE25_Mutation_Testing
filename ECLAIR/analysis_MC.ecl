@@ -18,3 +18,12 @@
 -eval_file=architecture.ecl
 
 -eval_file=tagging.ecl
+
+# Exclude unchanged files for PRs
+if(getenv("CHANGED_FILES"),
+   setq(changed_files,split(getenv("CHANGED_FILES")," ")),
+setq(changed_files,[".*"])
+)
+
+# Do not analyze unchanged files
+-frames+={hide, "main(!^("mapconcat(:identity,changed_files,'|')")$)"}

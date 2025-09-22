@@ -39,20 +39,16 @@ jobs:
           CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           for f in ${CHANGED_FILES}; do
-            echo "${f}"
+            echo "File ${f} changed"
           done
       - name: Prepare
         run: |
           set -eu
           ./setup.sh
-      - name: Set up ECLAIR analysis configuration
-        run: |
-          set -eu
-          echo "-setq=conf,mapconcat(:identity,${CHANGED_FILES},'|')" >> ECLAIR/analysis_MC.ecl
-          echo "-frames+={hide, "main(!^("conf")$)}"' >> ECLAIR/analysis_MC.ecl
       - name: Build and analyze with ECLAIR
         env:
           VARIANT: ${{ matrix.board }}
+          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
         run: |
           set -eu
           ./ECLAIR/analyze.sh ${{ matrix.board }}
