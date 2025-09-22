@@ -7,6 +7,10 @@
 -disable=MC4.R20.10
 -disable=MC4.R15.5
 
+-enable=NC3
+-eval_file=barr-stylistic.ecl
+-eval_file=vocabulary-config.ecl
+
 -enable=B.INDEPENDENCE
 
 -eval_file=toolchain.ecl
