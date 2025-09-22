@@ -7,5 +7,8 @@
 -disable=MC4.R20.10
 -disable=MC4.R15.5
 
+-enable=B.INDEPENDENCE
+
 -eval_file=toolchain.ecl
 -eval_file=deviations.ecl
+-eval_file=architecture.ecl
