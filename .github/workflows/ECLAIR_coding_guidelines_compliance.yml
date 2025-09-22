@@ -7,7 +7,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-  ANALYSIS_KIND: "coding guidelines compliance"
+  ANALYSIS_KIND: coding_guidelines
   ENABLE_ECLAIR_BOT: true
 jobs:
   Coding-Guidelines:

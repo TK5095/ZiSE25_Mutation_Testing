@@ -45,12 +45,12 @@ jobs:
         env:
           WTOKEN: ${{secrets.WTOKEN}}
           VARIANT: ${{ matrix.board }}
-          ANALYSIS_KIND: "requirements coverage"
+          ANALYSIS_KIND: requirements_coverage
         run: ECLAIR/action_push.sh "${WTOKEN}" ECLAIR/requirements_analysis_out
       - name: Publish ECLAIR code coverage results
         env:
           WTOKEN: ${{secrets.WTOKEN}}
           VARIANT: ${{ matrix.board }}
-          ANALYSIS_KIND: "test coverage"
+          ANALYSIS_KIND: test_coverage
         run: ECLAIR/action_push.sh "${WTOKEN}" ECLAIR/coverage_analysis_out
 

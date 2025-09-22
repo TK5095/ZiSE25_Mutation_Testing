@@ -6,7 +6,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-  ANALYSIS_KIND: normal
+  ANALYSIS_KIND: pull_request
   ENABLE_ECLAIR_BOT: true
 jobs:
   Analyze:
