@@ -16,3 +16,5 @@
 -eval_file=toolchain.ecl
 -eval_file=deviations.ecl
 -eval_file=architecture.ecl
+
+-eval_file=tagging.ecl
