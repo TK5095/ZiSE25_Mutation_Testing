@@ -13,7 +13,11 @@ jobs:
     runs-on: saas.eclairit.com
     container:
       image: bugseng/github-runner:latest
-    environment: requirements-page
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    environment: github-pages
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -28,32 +32,29 @@ jobs:
           set -eu
           . ../.venv/bin/activate
           strictdoc export --formats=html temp_alert.sdoc --output-dir strictdoc_output
-      - name: Deploy StrictDoc HTML
+      - name: Configure GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v5
+      - name: Upload StrictDoc HTML artifact for GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: strictdoc_output/html
+      - name: Deploy artifact
         id: strictdoc-deploy
         if: github.ref == 'refs/heads/main'
-        uses: nwtgck/actions-netlify@v3.0
-        with:
-          publish-dir: './strictdoc_output/html'
-          production-branch: main
-          deploy-message: "Deploy temp_alert requirements documentation"
-          enable-pull-request-comment: false
-          enable-commit-comment: false
-          enable-github-deployment: false
-          enable-commit-status: false
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        uses: actions/deploy-pages@v4
       - name: Upload StrictDoc HTML
         uses: actions/upload-artifact@v4
         with:
           name: strictdoc-html
           path: strictdoc_output/
       - name: Post requirements summary
-        if: github.ref == 'refs/heads/main' && steps.strictdoc-deploy.outputs.deploy-url != ''
+        if: github.ref == 'refs/heads/main'
         uses: actions/github-script@v7
         with:
           script: |
-            const deployUrl = '${{ steps.strictdoc-deploy.outputs.deploy-url }}';
+            const deployUrl = '${{ steps.strictdoc-deploy.outputs.page_url }}';
             const sha = '${{ github.sha }}';
             const fs = require('fs');
 
