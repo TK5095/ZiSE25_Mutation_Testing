@@ -37,7 +37,7 @@ jobs:
               - CMakeLists.txt
       - name: List all changed files
         env:
-          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+          CHANGED_FILES: ${{ steps.changed-files.outputs.src_all_changed_files }}
         run: |
           for f in ${CHANGED_FILES}; do
             echo "File ${f} changed"
@@ -49,7 +49,7 @@ jobs:
       - name: Build and analyze with ECLAIR
         env:
           VARIANT: ${{ matrix.board }}
-          CHANGED_FILES: ${{ steps.changed-files.outputs.all_changed_files }}
+          CHANGED_FILES: ${{ steps.changed-files.outputs.src_all_changed_files }}
         run: |
           set -eu
           ./ECLAIR/analyze.sh ${{ matrix.board }}
@@ -65,6 +65,10 @@ jobs:
           echo "ARTIFACT_NAME=ECLAIR_out_$(echo "${BOARD_NAME}" | tr '/' '_')" >> $GITHUB_ENV
       - name: Publish ECLAIR results
         env:
+          PR_HEAD_REF: ${{github.event.pull_request.head.ref}}
+          PR_HEAD_REPO: ${{github.event.pull_request.head.repo.full_name}}
+          PR_BASE_REF: ${{github.event.pull_request.base.ref}}
+          PR_USER: ${{github.event.pull_request.user.login}}
           WTOKEN: ${{secrets.WTOKEN}}
           VARIANT: ${GITHUB_REF_NAME}_${{ matrix.board }}
         run: ECLAIR/action_pull_request.sh "${WTOKEN}" build/sca/eclair

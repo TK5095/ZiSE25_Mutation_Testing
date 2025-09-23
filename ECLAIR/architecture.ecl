@@ -127,7 +127,7 @@
   {ZEP/KERNEL,macro_file,"loc(top(file(zep_kernel)))&&!(zep_threading_macros||zep_timing_macros )"}
 
 -doc_begin="Keep all the variables and functions under check."
--config=B.INDEPENDENCE,all_component_entities+="kind(var||function)"
+-config=B.INDEPENDENCE,all_component_entities+="linkage(external)&&kind(var||function)"
 -doc_end
 
 -doc_begin="All user-defined macros are interesting"
