@@ -8,6 +8,7 @@ env:
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
   ANALYSIS_KIND: pull_request
   ENABLE_ECLAIR_BOT: true
+  GITHUB_EVENT_PULL_REQUEST_NUMBER: ${{github.event.pull_request.number}}
 jobs:
   Analyze:
     strategy:

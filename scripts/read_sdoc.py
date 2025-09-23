@@ -6,16 +6,18 @@ from strictdoc.backend.sdoc.models.reference import ParentReqReference, ChildReq
 
 import os
 
-from typing import List, Dict, Generator
+from typing import List, Set, Dict, Generator
 
 class Requirement:
     uid: str
-    parents: List[str]
+    parents: Set[str]
+    children: Set[str]
     component: str | None = None
 
     def __init__(self, uid: str):
         self.uid = uid
-        self.parents = []
+        self.parents = set()
+        self.children = set()
 
 def extract_requirements_from_file(sdoc_path: str) -> Dict[str, Requirement]:
     doc: SDocDocument = SDReader().read(
@@ -25,6 +27,14 @@ def extract_requirements_from_file(sdoc_path: str) -> Dict[str, Requirement]:
     requirements: Dict[str, Requirement] = {}
     for req in requirements_from_node(doc.section_contents):
         requirements[req.uid] = req
+    # Populate children sets
+    for req in requirements.values():
+        for parent_uid in req.parents:
+            parent_req = requirements.get(parent_uid)
+            if parent_req:
+                parent_req.children.add(req.uid)
+            else:
+                raise Exception(f"Parent UID '{parent_uid}' referenced by '{req.uid}' not found in requirements.")
     return requirements
 
 def requirements_from_node(node: SDocElementIF | List[SDocElementIF]) -> Generator[Requirement, None, None]:
@@ -58,7 +68,7 @@ def requirements_from_node(node: SDocElementIF | List[SDocElementIF]) -> Generat
             relations = getattr(node, "relations", [])
             for rel in relations:
                 if isinstance(rel, ParentReqReference):
-                    requirement.parents.append(rel.ref_uid)
+                    requirement.parents.add(rel.ref_uid)
         yield requirement
     for c in node.section_contents:
         yield from requirements_from_node(c)

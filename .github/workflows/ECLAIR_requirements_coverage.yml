@@ -30,6 +30,7 @@ jobs:
           strictdoc export --formats=html temp_alert.sdoc --output-dir strictdoc_output
       - name: Deploy StrictDoc HTML
         id: strictdoc-deploy
+        if: github.ref == 'refs/heads/main'
         uses: nwtgck/actions-netlify@v3.0
         with:
           publish-dir: './strictdoc_output/html'
@@ -47,8 +48,8 @@ jobs:
         with:
           name: strictdoc-html
           path: strictdoc_output/
-          retention-days: 30
       - name: Post requirements summary
+        if: github.ref == 'refs/heads/main' && steps.strictdoc-deploy.outputs.deploy-url != ''
         uses: actions/github-script@v7
         with:
           script: |
