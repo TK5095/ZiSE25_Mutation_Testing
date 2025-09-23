@@ -1,6 +1,6 @@
 [![ECLAIR coding guidelines_compliance](https://github.com/BUGSENG/ZiSE25/actions/workflows/ECLAIR_coding_guidelines_compliance.yml/badge.svg?branch=main&event=push)](https://github.com/BUGSENG/ZiSE25/actions/workflows/ECLAIR_coding_guidelines_compliance.yml)
 [![temp_alert tests](https://github.com/BUGSENG/ZiSE25/actions/workflows/twister_tests.yml/badge.svg?branch=main)](https://github.com/BUGSENG/ZiSE25/actions/workflows/twister_tests.yml)
-[![ECLAIR coverage and requirements](https://github.com/BUGSENG/ZiSE25/actions/workflows/ECLAIR_requirements_coverage.yml/badge.svg)](https://github.com/BUGSENG/ZiSE25/actions/workflows/ECLAIR_requirements_coverage.yml)
+[![ECLAIR coverage and requirements](https://github.com/BUGSENG/ZiSE25/actions/workflows/ECLAIR_requirements_coverage.yml/badge.svg?branch=main)](https://github.com/BUGSENG/ZiSE25/actions/workflows/ECLAIR_requirements_coverage.yml)
 
 # Temp Alert
 
