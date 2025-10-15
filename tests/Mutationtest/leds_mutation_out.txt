@@ -1,0 +1,214 @@
+[info] Using config /home/xxx/Dokumente/yyy/zephyrproject/mull.yml
+[warning] Could not find dynamic library: libm.so.6
+[warning] Could not find dynamic library: libc.so.6
+[info] Warm up run (threads: 1)
+
+       [################################] 1/1. Finished in 226ms
+[info] Filter mutants (threads: 1)
+
+       [################################] 1/1. Finished in 0ms
+[info] Baseline run (threads: 1)
+
+       [################################] 1/1. Finished in 264ms
+[info] Running mutants (threads: 4)
+
+       [--------------------------------] 1/53
+       [#-------------------------------] 2/53
+       [#-------------------------------] 3/53
+       [###-----------------------------] 5/53
+       [###-----------------------------] 6/53
+       [####----------------------------] 7/53
+       [####----------------------------] 8/53
+       [#####---------------------------] 9/53
+       [######--------------------------] 10/53
+       [######--------------------------] 11/53
+       [#######-------------------------] 12/53
+       [#######-------------------------] 13/53
+       [########------------------------] 14/53
+       [#########-----------------------] 15/53
+       [#########-----------------------] 16/53
+       [##########----------------------] 17/53
+       [##########----------------------] 18/53
+       [###########---------------------] 19/53
+       [############--------------------] 20/53
+       [############--------------------] 21/53
+       [#############-------------------] 22/53
+       [#############-------------------] 23/53
+       [##############------------------] 24/53
+       [###############-----------------] 25/53
+       [###############-----------------] 26/53
+       [################----------------] 27/53
+       [################----------------] 28/53
+       [#################---------------] 29/53
+       [##################--------------] 30/53
+       [##################--------------] 31/53
+       [###################-------------] 32/53
+       [###################-------------] 33/53
+       [####################------------] 34/53
+       [#####################-----------] 35/53
+       [#####################-----------] 36/53
+       [######################----------] 37/53
+       [######################----------] 38/53
+       [#######################---------] 39/53
+       [########################--------] 40/53
+       [########################--------] 41/53
+       [#########################-------] 42/53
+       [#########################-------] 43/53
+       [##########################------] 44/53
+       [###########################-----] 45/53
+       [###########################-----] 46/53
+       [############################----] 47/53
+       [############################----] 48/53
+       [#############################---] 49/53
+       [##############################--] 50/53
+       [##############################--] 51/53
+       [###############################-] 52/53
+       [################################] 53/53. Finished in 17297ms
+[info] Survived mutants (48/53):
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/buzzer.c:26:38: warning: Survived: Replaced * with / [cxx_mul_to_div]
+  uint32_t cycles         = (freq_hz * duration_ms) / 1000U;
+                                     ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/buzzer.c:28:26: warning: Survived: Replaced < with >= [cxx_lt_to_ge]
+  for (uint32_t i = 0; i < cycles; i++)
+                         ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/buzzer.c:28:26: warning: Survived: Replaced < with <= [cxx_lt_to_le]
+  for (uint32_t i = 0; i < cycles; i++)
+                         ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/buzzer.c:28:37: warning: Survived: Replaced x++ with x-- [cxx_post_inc_to_post_dec]
+  for (uint32_t i = 0; i < cycles; i++)
+                                    ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/buzzer.c:42:26: warning: Survived: Replaced < with >= [cxx_lt_to_ge]
+  for (uint8_t i = 0U; i < BUZZER_NUM_TONES; i++)
+                         ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/buzzer.c:42:26: warning: Survived: Replaced < with <= [cxx_lt_to_le]
+  for (uint8_t i = 0U; i < BUZZER_NUM_TONES; i++)
+                         ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/buzzer.c:42:47: warning: Survived: Replaced x++ with x-- [cxx_post_inc_to_post_dec]
+  for (uint8_t i = 0U; i < BUZZER_NUM_TONES; i++)
+                                              ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/buzzer.c:62:33: warning: Survived: Replaced != with == [cxx_ne_to_eq]
+    if (atomic_get(&alarm_flag) != 0)
+                                ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/buzzer.c:86:11: warning: Survived: Replaced != with == [cxx_ne_to_eq]
+  if (ret != 0)
+          ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/display.c:36:11: warning: Survived: Replaced != with == [cxx_ne_to_eq]
+  if (err != 0)
+          ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/leds.c:40:33: warning: Survived: Replaced != with == [cxx_ne_to_eq]
+    if (atomic_get(&alarm_flag) != 0)
+                                ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/leds.c:42:28: warning: Survived: Replaced < with >= [cxx_lt_to_ge]
+      for (size_t i = 0; i < ARRAY_SIZE(leds); i++)
+                           ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/leds.c:42:28: warning: Survived: Replaced < with <= [cxx_lt_to_le]
+      for (size_t i = 0; i < ARRAY_SIZE(leds); i++)
+                           ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/leds.c:42:49: warning: Survived: Replaced x++ with x-- [cxx_post_inc_to_post_dec]
+      for (size_t i = 0; i < ARRAY_SIZE(leds); i++)
+                                                ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/leds.c:60:24: warning: Survived: Replaced < with >= [cxx_lt_to_ge]
+  for (size_t i = 0; i < ARRAY_SIZE(leds); i++)
+                       ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/leds.c:60:45: warning: Survived: Replaced x++ with x-- [cxx_post_inc_to_post_dec]
+  for (size_t i = 0; i < ARRAY_SIZE(leds); i++)
+                                            ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/leds.c:71:13: warning: Survived: Replaced != with == [cxx_ne_to_eq]
+    if (err != 0)
+            ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:63:13: warning: Survived: Replaced != with == [cxx_ne_to_eq]
+    if (ret != 0)
+            ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:74:13: warning: Survived: Replaced != with == [cxx_ne_to_eq]
+    if (ret != 0)
+            ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:91:13: warning: Survived: Replaced < with >= [cxx_lt_to_ge]
+    if (deg < 0)
+            ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:91:13: warning: Survived: Replaced < with <= [cxx_lt_to_le]
+    if (deg < 0)
+            ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:96:13: warning: Survived: Replaced > with >= [cxx_gt_to_ge]
+    if (deg > 99)
+            ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:96:13: warning: Survived: Replaced > with <= [cxx_gt_to_le]
+    if (deg > 99)
+            ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:101:27: warning: Survived: Replaced >= with > [cxx_ge_to_gt]
+    int hund = (temp.val2 >= 0 ? temp.val2 : -temp.val2) / 10000;
+                          ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:101:27: warning: Survived: Replaced >= with < [cxx_ge_to_lt]
+    int hund = (temp.val2 >= 0 ? temp.val2 : -temp.val2) / 10000;
+                          ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:101:46: warning: Survived: Replaced -x with x [cxx_minus_to_noop]
+    int hund = (temp.val2 >= 0 ? temp.val2 : -temp.val2) / 10000;
+                                             ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:101:58: warning: Survived: Replaced / with * [cxx_div_to_mul]
+    int hund = (temp.val2 >= 0 ? temp.val2 : -temp.val2) / 10000;
+                                                         ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:103:14: warning: Survived: Replaced > with >= [cxx_gt_to_ge]
+    if (hund > 99)
+             ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:103:14: warning: Survived: Replaced > with <= [cxx_gt_to_le]
+    if (hund > 99)
+             ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:110:30: warning: Survived: Replaced / with * [cxx_div_to_mul]
+      tm1637_segment_map[deg / 10],
+                             ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:111:30: warning: Survived: Replaced % with / [cxx_rem_to_div]
+      tm1637_segment_map[deg % 10] | 0x80U,
+                             ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:112:32: warning: Survived: Replaced / with * [cxx_div_to_mul]
+      tm1637_segment_map[(hund / 10) % 10],
+                               ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:112:38: warning: Survived: Replaced % with / [cxx_rem_to_div]
+      tm1637_segment_map[(hund / 10) % 10],
+                                     ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:113:31: warning: Survived: Replaced % with / [cxx_rem_to_div]
+      tm1637_segment_map[hund % 10],
+                              ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:121:29: warning: Survived: Replaced > with >= [cxx_gt_to_ge]
+    bool above = (temp.val1 > TEMP_THRESHOLD_C) ||
+                            ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:121:29: warning: Survived: Replaced > with <= [cxx_gt_to_le]
+    bool above = (temp.val1 > TEMP_THRESHOLD_C) ||
+                            ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:122:29: warning: Survived: Replaced == with != [cxx_eq_to_ne]
+                 (temp.val1 == TEMP_THRESHOLD_C && temp.val2 >= 0);
+                            ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:122:62: warning: Survived: Replaced >= with > [cxx_ge_to_gt]
+                 (temp.val1 == TEMP_THRESHOLD_C && temp.val2 >= 0);
+                                                             ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:122:62: warning: Survived: Replaced >= with < [cxx_ge_to_lt]
+                 (temp.val1 == TEMP_THRESHOLD_C && temp.val2 >= 0);
+                                                             ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:124:43: warning: Survived: Replaced == with != [cxx_eq_to_ne]
+    if (above && (atomic_get(&alarm_flag) == 0))
+                                          ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/main.c:129:49: warning: Survived: Replaced != with == [cxx_ne_to_eq]
+    else if (!above && (atomic_get(&alarm_flag) != 0))
+                                                ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/tm1637.c:47:21: warning: Survived: Replaced < with >= [cxx_lt_to_ge]
+  for (int i = 0; i < 8; i++)
+                    ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/tm1637.c:47:21: warning: Survived: Replaced < with <= [cxx_lt_to_le]
+  for (int i = 0; i < 8; i++)
+                    ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/tm1637.c:101:11: warning: Survived: Replaced != with == [cxx_ne_to_eq]
+  if (err != 0)
+          ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/tm1637.c:111:18: warning: Survived: Replaced > with >= [cxx_gt_to_ge]
+  if (brightness > TM1637_BRIGHTNESS_MAX)
+                 ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/tm1637.c:111:18: warning: Survived: Replaced > with <= [cxx_gt_to_le]
+  if (brightness > TM1637_BRIGHTNESS_MAX)
+                 ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/tm1637.c:133:21: warning: Survived: Replaced < with >= [cxx_lt_to_ge]
+  for (int i = 0; i < 4; i++)
+                    ^
+/home/xxx/Dokumente/yyy/zephyrproject/temp_alert/src/tm1637.c:133:21: warning: Survived: Replaced < with <= [cxx_lt_to_le]
+  for (int i = 0; i < 4; i++)
+                    ^
+[info] Mutation score: 9%
+[info] Total execution time: 17789ms
+[info] Surviving mutants: 48

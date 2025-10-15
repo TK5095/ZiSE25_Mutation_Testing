@@ -3,6 +3,8 @@ common:
   filter: CONFIG_ZTEST
   harness: ztest
   integration_platforms: [native_sim]
+  extra_configs: [CONFIG_COMPILER_OPT="-fpass-plugin=/usr/lib/mull-ir-frontend-18 -g -grecord-command-line"]
+
 
 tests:
   temp_alert.display:
